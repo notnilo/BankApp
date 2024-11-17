@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package core;
+package core.models.transactions;
 
-import bank.TransactionType;
-import bank.TransactionType;
-import core.Account;
+import core.models.Account;
+import core.models.Account;
 
 /**
  *
