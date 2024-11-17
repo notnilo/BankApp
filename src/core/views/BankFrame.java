@@ -55,7 +55,7 @@ public class BankFrame extends javax.swing.JFrame {
         txtFirstname = new javax.swing.JTextField();
         txtLastname = new javax.swing.JTextField();
         txtAge = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnRegisterUser = new javax.swing.JButton();
         panelCreateAccount = new javax.swing.JPanel();
         lblCreateAccount = new javax.swing.JLabel();
         lblUserId = new javax.swing.JLabel();
@@ -107,17 +107,23 @@ public class BankFrame extends javax.swing.JFrame {
         lblAge.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblAge.setText("Age");
 
+        txtID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIDActionPerformed(evt);
+            }
+        });
+
         txtAge.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAgeActionPerformed(evt);
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jButton1.setText("Register");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRegisterUser.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnRegisterUser.setText("Register");
+        btnRegisterUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRegisterUserActionPerformed(evt);
             }
         });
 
@@ -147,7 +153,7 @@ public class BankFrame extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(panelRegisterUserLayout.createSequentialGroup()
                 .addGap(259, 259, 259)
-                .addComponent(jButton1)
+                .addComponent(btnRegisterUser)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRegisterUserLayout.setVerticalGroup(
@@ -172,7 +178,7 @@ public class BankFrame extends javax.swing.JFrame {
                     .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAge))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnRegisterUser)
                 .addContainerGap(83, Short.MAX_VALUE))
         );
 
@@ -528,7 +534,7 @@ public class BankFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRegisterUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterUserActionPerformed
         // TODO add your handling code here:
         try {
             int id = Integer.parseInt(txtID.getText());
@@ -545,7 +551,7 @@ public class BankFrame extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnRegisterUserActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
@@ -704,6 +710,10 @@ public class BankFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAgeActionPerformed
 
+    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIDActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -746,8 +756,8 @@ public class BankFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnRefreshAccounts;
     private javax.swing.JButton btnRefreshTransactions;
     private javax.swing.JButton btnRefreshUsers;
+    private javax.swing.JButton btnRegisterUser;
     private javax.swing.JComboBox<String> comboType;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
