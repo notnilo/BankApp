@@ -104,7 +104,7 @@ public class TransactionController {
                         return new Response("Not enough funds in source accounts for this transaction", Status.BAD_REQUEST);
                     }
                 }
-                default -> {  // Handle unmatched types
+                default -> {
                     return new Response("Invalid transaction type", Status.BAD_REQUEST);
                 }
             }
