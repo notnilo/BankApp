@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package core.models.storage;
-
 import core.models.Account;
 import core.models.User;
 import core.models.transactions.Transaction;
@@ -72,6 +71,18 @@ public class Storage {
             }
         }
         return null;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public ArrayList<Account> getAccounts() {
+        return accounts;
+    }
+
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
     }
     
     public boolean addTransaction(Transaction transaction) {
