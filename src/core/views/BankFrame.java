@@ -571,7 +571,7 @@ public class BankFrame extends javax.swing.JFrame {
         } else if (response.getStatus() >= 400) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, response.getMessage() + "\nPerson fullname: " + response.getObject(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
             txtSourceAccount.setText("");
             txtDestinationAccount.setText("");
             txtAmount.setText("");
@@ -583,11 +583,20 @@ public class BankFrame extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tableListUsers.getModel();
         model.setRowCount(0);
 
-        this.users.sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
+        Response response = UserController.sortUser();
 
-        for (User user : this.users) {
-            model.addRow(new Object[]{user.getId(), user.getFirstname() + " " + user.getLastname(), user.getAge(), user.getNumAccounts()});
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            model = UserController.showUsers(response);
+            tableListUsers.setModel(model);
+
         }
+
+
     }//GEN-LAST:event_btnRefreshUsersActionPerformed
 
     private void btnRefreshAccountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshAccountsActionPerformed
@@ -595,10 +604,17 @@ public class BankFrame extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) TableAccounts.getModel();
         model.setRowCount(0);
 
-        this.accounts.sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
+        Response response = AccountController.sortAccount();
 
-        for (Account account : this.accounts) {
-            model.addRow(new Object[]{account.getId(), account.getOwner().getId(), account.getBalance()});
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            model = AccountController.showAccounts(response);
+            TableAccounts.setModel(model);
+
         }
     }//GEN-LAST:event_btnRefreshAccountsActionPerformed
 
@@ -607,11 +623,17 @@ public class BankFrame extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tableTransactions.getModel();
         model.setRowCount(0);
 
-        ArrayList<Transaction> transactionsCopy = (ArrayList<Transaction>) this.transactions.clone();
-        Collections.reverse(transactionsCopy);
+        Response response = TransactionController.sortTransaction();
 
-        for (Transaction transaction : transactionsCopy) {
-            model.addRow(new Object[]{transaction.getType().name(), (transaction.getSourceAccount() != null ? transaction.getSourceAccount().getId() : "None"), (transaction.getDestinationAccount() != null ? transaction.getDestinationAccount().getId() : "None"), transaction.getAmount()});
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            model = TransactionController.showTransactions(response);
+            tableTransactions.setModel(model);
+
         }
     }//GEN-LAST:event_btnRefreshTransactionsActionPerformed
 

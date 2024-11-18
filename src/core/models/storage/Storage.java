@@ -37,7 +37,7 @@ public class Storage {
 
     public boolean addUser(User user) {
         for (User u : this.users) {
-            if (u.getId() == u.getId()) {
+            if (u.getId() == user.getId()) {
                 return false;
             }
         }
@@ -56,7 +56,7 @@ public class Storage {
 
     public boolean addAccount(Account account) {
         for (Account a : this.accounts) {
-            if (a.getId().equals(a.getId())) {
+            if (a.getId().equals(account.getId())) {
                 return false;
             }
         }

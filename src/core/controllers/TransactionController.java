@@ -6,6 +6,10 @@ import core.models.Account;
 import core.models.storage.Storage;
 import core.models.transactions.Transaction;
 import core.models.transactions.TransactionType;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -16,10 +20,10 @@ import core.models.transactions.TransactionType;
  * @author notnilo
  */
 public class TransactionController {
-    
+
     public static Response createTransaction(String type, String sourceAccountId, String destinationAccountId, String amount) {
         try {
-            Storage storage = Storage.getInstance();      
+            Storage storage = Storage.getInstance();
             if (amount.equals("")) {
                 return new Response("Amount cannot be empty", Status.BAD_REQUEST);
             }
@@ -112,4 +116,35 @@ public class TransactionController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public static Response sortTransaction() {
+        Storage storage = Storage.getInstance();
+
+        ArrayList<Transaction> transactionsCopy = (ArrayList<Transaction>) storage.getTransactions().clone();
+        Collections.reverse(transactionsCopy);
+
+        return new Response("Sort completed", Status.OK, transactionsCopy);
+
+    }
+
+    public static DefaultTableModel showTransactions(Response response) {
+
+        String[] columnNames = {"Type", "Source Account ID", "Destination Account ID", "Amount"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        for (Transaction transaction : (List<Transaction>) response.getObject()) {
+
+            Object[] row = {
+                transaction.getType(),
+                transaction.getSourceAccount().getId(),
+                transaction.getDestinationAccount().getId(),
+                transaction.getAmount()
+
+            };
+            model.addRow(row);
+        }
+
+        return model;
+    }
+
 }

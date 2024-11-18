@@ -8,6 +8,9 @@ import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.User;
 import core.models.storage.Storage;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,13 +27,13 @@ public class UserController {
                 if (idInt < 0) {
                     return new Response("Id must be positive", Status.BAD_REQUEST);
                 }
-                if (id.length()<9){
-                    return new Response("Id must have 9 digits", Status.BAD_REQUEST);
+                if (id.length() < 9) {
+                    return new Response("Id must have at least 9 digits", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Id must be numeric", Status.BAD_REQUEST);
             }
-            
+
             if (firstname.equals("")) {
                 return new Response("First name must be not empty", Status.BAD_REQUEST);
             }
@@ -60,4 +63,30 @@ public class UserController {
         }
     }
 
+    public static Response sortUser() {
+        Storage storage = Storage.getInstance();
+        storage.getUsers().sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
+
+        return new Response("Sort completed", Status.OK, storage.getUsers());
+
+    }
+
+    public static DefaultTableModel showUsers(Response response) {
+
+        String[] columnNames = {"ID", "Full Name", "Age", "Number of Accounts"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        for (User user : (List<User>) response.getObject()) {
+
+            Object[] row = {
+                user.getId(),
+                user.getFirstname() + " " + user.getLastname(),
+                user.getAge(),
+                user.getNumAccounts()
+            };
+            model.addRow(row);
+        }
+
+        return model;
+    }
 }

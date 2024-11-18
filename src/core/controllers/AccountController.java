@@ -9,7 +9,9 @@ import core.controllers.utils.Status;
 import core.models.Account;
 import core.models.User;
 import core.models.storage.Storage;
+import java.util.List;
 import java.util.Random;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,10 +24,10 @@ public class AccountController {
         try {
             int idInt;
             double aBalance;
-            if(userId.equals("")){
+            if (userId.equals("")) {
                 return new Response("User Id must not be empty", Status.BAD_REQUEST);
             }
-            if(accountBalance.equals("")){
+            if (accountBalance.equals("")) {
                 return new Response("Account Balance must not be empty", Status.BAD_REQUEST);
             }
             try {
@@ -50,7 +52,7 @@ public class AccountController {
                 return new Response("Id not found", Status.NOT_FOUND);
             }
             aBalance = Double.parseDouble(accountBalance);
-            if(aBalance<0){
+            if (aBalance < 0) {
                 return new Response("Account Balance must be greater than zero", Status.BAD_REQUEST);
             }
             Random random = new Random();
@@ -63,5 +65,32 @@ public class AccountController {
         } catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public static Response sortAccount() {
+        Storage storage = Storage.getInstance();
+        storage.getAccounts().sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
+
+        return new Response("Sort completed", Status.OK, storage.getAccounts());
+
+    }
+
+    public static DefaultTableModel showAccounts(Response response) {
+
+        String[] columnNames = {"ID", "User ID", "Balance"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        for (Account account : (List<Account>) response.getObject()) {
+
+            Object[] row = {
+                account.getId(),
+                account.getOwner().getId(),
+                account.getBalance(),
+                
+            };
+            model.addRow(row);
+        }
+
+        return model;
     }
 }
