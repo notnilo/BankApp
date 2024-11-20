@@ -18,7 +18,6 @@ public class Account {
         this.id = id;
         this.owner = owner;
         this.balance = 0;
-        
         this.owner.addAccount(this);
     }
     
@@ -26,7 +25,6 @@ public class Account {
         this.id = id;
         this.owner = owner;
         this.balance = balance;
-        
         this.owner.addAccount(this);
     }
     

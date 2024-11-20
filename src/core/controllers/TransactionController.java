@@ -134,16 +134,34 @@ public class TransactionController {
 
         for (Transaction transaction : (List<Transaction>) response.getObject()) {
 
-            Object[] row = {
-                transaction.getType(),
-                transaction.getSourceAccount().getId(),
-                transaction.getDestinationAccount().getId(),
-                transaction.getAmount()
-
-            };
-            model.addRow(row);
+            if (transaction.getType() == TransactionType.DEPOSIT) {
+                Object[] row = {
+                    transaction.getType(),
+                    "",
+                    transaction.getDestinationAccount().getId(),
+                    transaction.getAmount()
+                };
+                model.addRow(row);
+            }
+            if (transaction.getType() == TransactionType.WITHDRAW) {
+                Object[] row = {
+                    transaction.getType(),
+                    transaction.getSourceAccount().getId(),
+                    "",
+                    transaction.getAmount()
+                };
+                model.addRow(row);
+            }
+            if (transaction.getType() == TransactionType.TRANSFER) {
+                Object[] row = {
+                    transaction.getType(),
+                    transaction.getSourceAccount().getId(),
+                    transaction.getDestinationAccount().getId(),
+                    transaction.getAmount()
+                };
+                model.addRow(row);
+            }
         }
-
         return model;
     }
 
