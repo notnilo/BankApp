@@ -4,27 +4,16 @@
  */
 package core.models;
 
-import core.models.Account;
-import java.util.ArrayList;
+import core.person.Person;
 
 /**
  *
  * @author edangulo
  */
-public class User {
+public class User extends Person {
     
-    private int id;
-    private String firstname;
-    private String lastname;
-    private int age;
-    private ArrayList<Account> accounts;
-
     public User(int id, String firstname, String lastname, int age) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.age = age;
-        this.accounts = new ArrayList<>();
+        super(id, firstname, lastname, age);
     }
 
     public int getId() {

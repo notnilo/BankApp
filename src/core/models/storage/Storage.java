@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package core.models.storage;
+
 import core.models.Account;
 import core.models.User;
 import core.models.transactions.Transaction;
@@ -18,9 +19,9 @@ public class Storage {
     private static Storage instance;
 
     // Atributos del Storage
-    private ArrayList<User> users;
-    private ArrayList<Account> accounts;
-    private ArrayList<Transaction> transactions;
+    private final ArrayList<User> users;
+    private final ArrayList<Account> accounts;
+    private final ArrayList<Transaction> transactions;
 
     private Storage() {
         this.users = new ArrayList<>();
@@ -73,6 +74,11 @@ public class Storage {
         return null;
     }
 
+    public boolean addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
+        return true;
+    }
+
     public ArrayList<User> getUsers() {
         return users;
     }
@@ -83,10 +89,5 @@ public class Storage {
 
     public ArrayList<Transaction> getTransactions() {
         return transactions;
-    }
-    
-    public boolean addTransaction(Transaction transaction) {
-        this.transactions.add(transaction);
-        return true;
     }
 }

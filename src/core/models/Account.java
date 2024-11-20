@@ -8,7 +8,7 @@ package core.models;
  *
  * @author edangulo
  */
-public class Account {
+public class Account implements Movements{
     
     private String id;
     private User owner;
@@ -39,11 +39,13 @@ public class Account {
     public double getBalance() {
         return balance;
     }
-    
+
+    @Override
     public void deposit(double amount) {
         this.balance += amount;
     }
-    
+
+    @Override
     public boolean withdraw(double amount) {
         if (amount > this.balance) {
             return false;
@@ -51,5 +53,4 @@ public class Account {
         this.balance -= amount;
         return true;
     }
-    
 }

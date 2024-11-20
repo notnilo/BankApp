@@ -12,10 +12,8 @@ import core.views.BankFrame;
  */
 public class Main {
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BankFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new BankFrame().setVisible(true);
         });
     }
 }
