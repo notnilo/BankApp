@@ -17,9 +17,8 @@ import javax.swing.table.DefaultTableModel;
  * @author notnilo
  */
 public class UserController {
-
+    
     public static Response createUser(String id, String firstname, String lastname, String age) {
-
         try {
             int idInt, ageInt;
             try {
@@ -33,11 +32,9 @@ public class UserController {
             } catch (NumberFormatException ex) {
                 return new Response("Id must be numeric", Status.BAD_REQUEST);
             }
-
             if (firstname.equals("")) {
                 return new Response("First name must be not empty", Status.BAD_REQUEST);
             }
-
             if (lastname.equals("")) {
                 return new Response("Last name must be not empty", Status.BAD_REQUEST);
             }
@@ -48,7 +45,6 @@ public class UserController {
                 }
                 if (ageInt <= 18) {
                     return new Response("Age must be over 18", Status.BAD_REQUEST);
-
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Age must be numeric", Status.BAD_REQUEST);
@@ -64,20 +60,19 @@ public class UserController {
     }
 
     public static Response sortUser() {
-        Storage storage = Storage.getInstance();
-        storage.getUsers().sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
-
-        return new Response("Sort completed", Status.OK, storage.getUsers());
-
+        try {
+            Storage storage = Storage.getInstance();
+            storage.getUsers().sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
+            return new Response("Successful operation", Status.OK, storage.getUsers());
+        } catch (Exception ex) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public static DefaultTableModel showUsers(Response response) {
-
         String[] columnNames = {"ID", "Full Name", "Age", "Number of Accounts"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-
         for (User user : (List<User>) response.getObject()) {
-
             Object[] row = {
                 user.getId(),
                 user.getFirstname() + " " + user.getLastname(),
@@ -86,7 +81,6 @@ public class UserController {
             };
             model.addRow(row);
         }
-
         return model;
     }
 }

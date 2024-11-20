@@ -118,22 +118,20 @@ public class TransactionController {
     }
 
     public static Response sortTransaction() {
-        Storage storage = Storage.getInstance();
-
-        ArrayList<Transaction> transactionsCopy = (ArrayList<Transaction>) storage.getTransactions().clone();
-        Collections.reverse(transactionsCopy);
-
-        return new Response("Sort completed", Status.OK, transactionsCopy);
-
+        try {
+            Storage storage = Storage.getInstance();
+            ArrayList<Transaction> transactionsCopy = (ArrayList<Transaction>) storage.getTransactions().clone();
+            Collections.reverse(transactionsCopy);
+            return new Response("Successful operation", Status.OK, transactionsCopy);
+        } catch (Exception ex) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public static DefaultTableModel showTransactions(Response response) {
-
         String[] columnNames = {"Type", "Source Account ID", "Destination Account ID", "Amount"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-
         for (Transaction transaction : (List<Transaction>) response.getObject()) {
-
             if (transaction.getType() == TransactionType.DEPOSIT) {
                 Object[] row = {
                     transaction.getType(),
@@ -164,5 +162,4 @@ public class TransactionController {
         }
         return model;
     }
-
 }

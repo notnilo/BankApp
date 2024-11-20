@@ -68,11 +68,13 @@ public class AccountController {
     }
 
     public static Response sortAccount() {
-        Storage storage = Storage.getInstance();
-        storage.getAccounts().sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
-
-        return new Response("Sort completed", Status.OK, storage.getAccounts());
-
+        try {
+            Storage storage = Storage.getInstance();
+            storage.getAccounts().sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
+            return new Response("Successful operation", Status.OK, storage.getAccounts());
+        } catch (Exception ex) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public static DefaultTableModel showAccounts(Response response) {
@@ -85,9 +87,7 @@ public class AccountController {
             Object[] row = {
                 account.getId(),
                 account.getOwner().getId(),
-                account.getBalance(),
-                
-            };
+                account.getBalance(),};
             model.addRow(row);
         }
 
