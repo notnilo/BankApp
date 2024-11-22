@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author notnilo
  */
-public class Storage {
+public class  Storage {
 
     // Instancia Singleton
     private static Storage instance;

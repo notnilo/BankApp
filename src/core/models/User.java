@@ -4,16 +4,26 @@
  */
 package core.models;
 
-import core.person.Person;
+import java.util.ArrayList;
 
 /**
  *
  * @author edangulo
  */
-public class User extends Person {
-    
+public class User {
+
+    private int id;
+    private String firstname;
+    private String lastname;
+    private int age;
+    private ArrayList<Account> accounts;
+
     public User(int id, String firstname, String lastname, int age) {
-        super(id, firstname, lastname, age);
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.age = age;
+        this.accounts = new ArrayList<>();
     }
 
     public int getId() {
@@ -31,13 +41,15 @@ public class User extends Person {
     public int getAge() {
         return age;
     }
-    
+
     public int getNumAccounts() {
         return this.accounts.size();
     }
-    
-    public void addAccount(Account account) {
-        this.accounts.add(account);
+
+    public ArrayList<Account> getAccounts() {
+        return accounts;
     }
+
     
+
 }
