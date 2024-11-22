@@ -4,8 +4,8 @@
  */
 package core.models.storage;
 
-import core.models.Account;
-import core.models.User;
+import core.models.account.Account;
+import core.models.user.User;
 import core.models.transactions.Transaction;
 import java.util.ArrayList;
 

@@ -6,8 +6,8 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
-import core.models.Account;
-import core.models.User;
+import core.models.account.Account;
+import core.models.user.User;
 import core.models.storage.Storage;
 import java.util.List;
 import java.util.Random;
@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author notnilo
  */
-public class AccountController {
+public class AccountController implements ControllerMethods{
 
     public static Response createAccount(String userId, String accountBalance) {
 
@@ -67,7 +67,8 @@ public class AccountController {
         }
     }
 
-    public static Response sortAccount() {
+    @Override
+    public Response sort() {
         try {
             Storage storage = Storage.getInstance();
             storage.getAccounts().sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
@@ -77,7 +78,8 @@ public class AccountController {
         }
     }
 
-    public static DefaultTableModel showAccounts(Response response) {
+    @Override
+    public DefaultTableModel show(Response response) {
 
         String[] columnNames = {"ID", "User ID", "Balance"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);

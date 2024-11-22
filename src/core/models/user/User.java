@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package core.models;
+package core.models.user;
 
+import core.models.user.handlers.UserAccountCounter;
+import core.models.account.Account;
 import java.util.ArrayList;
 
 /**
@@ -17,6 +19,7 @@ public class User {
     private String lastname;
     private int age;
     private ArrayList<Account> accounts;
+    private UserAccountCounter counter;
 
     public User(int id, String firstname, String lastname, int age) {
         this.id = id;
@@ -24,6 +27,11 @@ public class User {
         this.lastname = lastname;
         this.age = age;
         this.accounts = new ArrayList<>();
+        this.counter = new UserAccountCounter(this);
+    }
+
+    public UserAccountCounter getCounter() {
+        return counter;
     }
 
     public int getId() {
@@ -42,14 +50,7 @@ public class User {
         return age;
     }
 
-    public int getNumAccounts() {
-        return this.accounts.size();
-    }
-
     public ArrayList<Account> getAccounts() {
         return accounts;
     }
-
-    
-
 }

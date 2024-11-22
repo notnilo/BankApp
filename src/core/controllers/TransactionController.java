@@ -2,7 +2,7 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
-import core.models.Account;
+import core.models.account.Account;
 import core.models.storage.Storage;
 import core.models.transactions.Transaction;
 import core.models.transactions.TransactionType;
@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author notnilo
  */
-public class TransactionController {
+public class TransactionController implements ControllerMethods {
 
     public static Response createTransaction(String type, String sourceAccountId, String destinationAccountId, String amount) {
         try {
@@ -48,7 +48,7 @@ public class TransactionController {
                     if (destinationAccount == null) {
                         return new Response("Destination account not found", Status.NOT_FOUND);
                     }
-                    destinationAccount.deposit(cant);
+                    destinationAccount.getDepositer().deposit(cant);
                     storage.addTransaction(new Transaction(TransactionType.DEPOSIT, null, destinationAccount, cant));
                     return new Response("Deposit done successfully", Status.CREATED);
                 }
@@ -68,7 +68,7 @@ public class TransactionController {
                     if (sourceAccount == null) {
                         return new Response("Source account not found", Status.NOT_FOUND);
                     }
-                    if (sourceAccount.withdraw(cant)) {
+                    if (sourceAccount.getWithdrawer().withdraw(cant)) {
                         storage.addTransaction(new Transaction(TransactionType.WITHDRAW, sourceAccount, null, cant));
                         return new Response("Withdrawal done successfully", Status.CREATED);
                     } else {
@@ -100,8 +100,8 @@ public class TransactionController {
                     if (destinationAccount == null) {
                         return new Response("Destination account not found", Status.NOT_FOUND);
                     }
-                    if (sourceAccount.withdraw(cant)) {
-                        destinationAccount.deposit(cant);
+                    if (sourceAccount.getWithdrawer().withdraw(cant)) {
+                        destinationAccount.getDepositer().deposit(cant);
                         storage.addTransaction(new Transaction(TransactionType.TRANSFER, sourceAccount, destinationAccount, cant));
                         return new Response("Transaction done successfully", Status.CREATED);
                     } else {
@@ -116,8 +116,9 @@ public class TransactionController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
-
-    public static Response sortTransaction() {
+    
+    @Override
+    public Response sort() {
         try {
             Storage storage = Storage.getInstance();
             ArrayList<Transaction> transactionsCopy = (ArrayList<Transaction>) storage.getTransactions().clone();
@@ -127,8 +128,9 @@ public class TransactionController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
-
-    public static DefaultTableModel showTransactions(Response response) {
+    
+    @Override
+    public DefaultTableModel show(Response response) {
         String[] columnNames = {"Type", "Source Account ID", "Destination Account ID", "Amount"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         for (Transaction transaction : (List<Transaction>) response.getObject()) {

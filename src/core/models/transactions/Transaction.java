@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package core.models.transactions;
-import core.models.Account;
+import core.models.account.Account;
 
 /**
  *

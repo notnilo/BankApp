@@ -6,9 +6,8 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
-import core.models.User;
+import core.models.user.User;
 import core.models.storage.Storage;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author notnilo
  */
-public class UserController {
+public class UserController implements ControllerMethods{
     
     public static Response createUser(String id, String firstname, String lastname, String age) {
         try {
@@ -59,7 +58,8 @@ public class UserController {
         }
     }
 
-    public static Response sortUser() {
+    @Override
+    public Response sort() {
         try {
             Storage storage = Storage.getInstance();
             storage.getUsers().sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
@@ -69,7 +69,8 @@ public class UserController {
         }
     }
 
-    public static DefaultTableModel showUsers(Response response) {
+    @Override
+    public DefaultTableModel show(Response response) {
         String[] columnNames = {"ID", "Full Name", "Age", "Number of Accounts"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         for (User user : (List<User>) response.getObject()) {
@@ -77,7 +78,7 @@ public class UserController {
                 user.getId(),
                 user.getFirstname() + " " + user.getLastname(),
                 user.getAge(),
-                user.getNumAccounts()
+                user.getCounter().getNumAccounts()
             };
             model.addRow(row);
         }

@@ -20,7 +20,14 @@ public class BankFrame extends javax.swing.JFrame {
     /**
      * Creates new form BankFrame
      */
+    private final UserController uCon;
+    private final TransactionController tCon;
+    private final AccountController aCon;
+    
     public BankFrame() {
+        this.uCon = new UserController();
+        this.tCon = new TransactionController();
+        this.aCon = new AccountController();
         initComponents();
     }
 
@@ -582,14 +589,14 @@ public class BankFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableListUsers.getModel();
         model.setRowCount(0);
-        Response response = UserController.sortUser();
+        Response response = uCon.sort();
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
         } else if (response.getStatus() >= 400) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-            model = UserController.showUsers(response);
+            model = uCon.show(response);
             tableListUsers.setModel(model);
         }
     }//GEN-LAST:event_btnRefreshUsersActionPerformed
@@ -598,14 +605,14 @@ public class BankFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) TableAccounts.getModel();
         model.setRowCount(0);
-        Response response = AccountController.sortAccount();
+        Response response = aCon.sort();
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
         } else if (response.getStatus() >= 400) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-            model = AccountController.showAccounts(response);
+            model = aCon.show(response);
             TableAccounts.setModel(model);
         }
     }//GEN-LAST:event_btnRefreshAccountsActionPerformed
@@ -614,14 +621,14 @@ public class BankFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableTransactions.getModel();
         model.setRowCount(0);
-        Response response = TransactionController.sortTransaction();
+        Response response = tCon.sort();
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
         } else if (response.getStatus() >= 400) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-            model = TransactionController.showTransactions(response);
+            model = tCon.show(response);
             tableTransactions.setModel(model);
         }
     }//GEN-LAST:event_btnRefreshTransactionsActionPerformed
